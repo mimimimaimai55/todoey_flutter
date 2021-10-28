@@ -1,8 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:todoey_flutter/widgets/task_list.dart';
 import 'package:todoey_flutter/screens/add_task_screen.dart';
+import 'package:todoey_flutter/models/task.dart';
 
-class TaskScreen extends StatelessWidget {
+
+class TaskScreen extends StatefulWidget {
+  @override
+  _TaskScreenState createState() => _TaskScreenState();
+}
+
+class _TaskScreenState extends State<TaskScreen> {
+  List<Task> tasks = [
+    Task(name: '卵を買う'),
+    Task(name: 'ミルクを買う'),
+    Task(name: 'パンを買う'),
+  ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -12,16 +25,10 @@ class TaskScreen extends StatelessWidget {
         child: Icon(Icons.add),
         onPressed: () {
           showModalBottomSheet(
-            context: context,
-            isScrollControlled: true,
-            builder: (context) => SingleChildScrollView(
-              child: Container(
-                padding: EdgeInsets.only(
-                    bottom: MediaQuery.of(context).viewInsets.bottom),
-                child: AddTaskScreen(),
-              ),
-            ),
-          );
+            context: context,builder: (context) =>
+                AddTaskScreen((newTaskTitle){
+                  print(newTaskTitle);
+                }));
         },
       ),
       body: Column(
@@ -73,7 +80,7 @@ class TaskScreen extends StatelessWidget {
                   topRight: Radius.circular(20.0),
                 ),
               ),
-              child: TaskList(),
+              child: TaskList(tasks),
             ),
           ),
         ],
